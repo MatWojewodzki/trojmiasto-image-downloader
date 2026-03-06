@@ -1,0 +1,33 @@
+[project]
+name = "trojmiasto-image-downloader"
+version = "0.1.0"
+description = "CLI tool for downloading image galleries from trojmiasto.pl (not affiliated with trojmiasto.pl)."
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Mateusz Wojewódzki",email = "matwojewodzki@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "typer (>=0.24.1,<0.25.0)",
+    "beautifulsoup4 (>=4.14.3,<5.0.0)",
+    "aiohttp (>=3.13.3,<4.0.0)"
+]
+
+[project.urls]
+Repository = "https://github.com/MatWojewodzki/trojmiasto-image-downloader"
+
+[project.scripts]
+tid = "trojmiasto_image_downloader.main:app"
+
+[tool.poetry]
+packages = [{include = "trojmiasto_image_downloader", from = "src"}]
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.5.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

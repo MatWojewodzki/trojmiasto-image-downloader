@@ -60,7 +60,7 @@ $ tid [OPTIONS] ARTICLE_URL [DESTINATION_DIRECTORY]
 * `--respect-robots-txt / --ignore-robots-txt`: Respect robots.txt rules when making requests (recommended). This will override --delay for the specific hosts if necessary.  [default: respect-robots-txt]
 * `-d, --delay INTEGER`: Number of milliseconds to wait before performing the next request to the same host.  [default: 1000]
 * `-c, --max-concurrency INTEGER`: Max number of concurrent connections.  [default: 1]
-* `-t, --timeout INTEGER`: Timeout in seconds.  [default: 10]
+* `-t, --timeout INTEGER`: Timeout in seconds.  [default: 30]
 * `--install-completion`: Install completion for the current shell.
 * `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
 * `--help`: Show this message and exit.

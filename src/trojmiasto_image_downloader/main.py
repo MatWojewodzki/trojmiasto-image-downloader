@@ -6,13 +6,22 @@ from typing import Annotated
 import typer
 
 from .main_async import main_async
+from .parsing import get_host
+
+
+def article_url_callback(url: str) -> str:
+    host = get_host(url)
+    if not host.endswith("trojmiasto.pl"):
+        raise typer.BadParameter("url must point to trojmiasto.pl")
+    return url
 
 
 def main(
     article_url: Annotated[
         str,
         typer.Argument(
-            help="URL of an article at trojmiasto.pl containing the image gallery."
+            help="URL of an article at trojmiasto.pl containing the image gallery.",
+            callback=article_url_callback,
         ),
     ],
     destination_directory: Annotated[

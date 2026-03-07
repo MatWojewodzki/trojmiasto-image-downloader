@@ -55,7 +55,7 @@ $ tid [OPTIONS] ARTICLE_URL [DESTINATION_DIRECTORY]
 
 **Options**:
 
-* `-s, --start-idx INDEX`: Index of the first image to download, counting from one. If not set, downloads images from the first one.
+* `-s, --start-idx INTEGER`: Index of the first image to download, counting from one. If not set, downloads images from the first one.
 * `-e, --end-idx INTEGER`: Index of the last image to download, counting from one. If not set, downloads images up to the last one.
 * `--respect-robots-txt / --ignore-robots-txt`: Respect robots.txt rules when making requests (recommended). This will override --delay for the specific hosts if necessary.  [default: respect-robots-txt]
 * `-d, --delay INTEGER`: Number of milliseconds to wait before performing the next request to the same host.  [default: 1000]

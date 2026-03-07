@@ -188,7 +188,6 @@ def main(
         typer.Option(
             "--start-idx",
             "-s",
-            metavar="INDEX",
             help="Index of the first image to download, counting from one. If not set, downloads images from the first one.",
         ),
     ] = None,

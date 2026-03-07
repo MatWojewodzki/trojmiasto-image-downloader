@@ -42,6 +42,32 @@ source .venv/bin/activate
 pip install trojmiasto-image-downloader
 ```
 
+## Updating
+
+### Using `uv`
+
+```console
+uv tool upgrade trojmiasto-image-downloader
+```
+
+### Using `pipx`
+
+```console
+pipx upgrade trojmiasto-image-downloader
+```
+
+### Using `pip`
+
+```console
+# Activate the virtual environment
+# On macOS/Linux:
+source .venv/bin/activate
+# On Windows:
+.venv\Scripts\activate
+
+pip install --upgrade trojmiasto-image-downloader
+```
+
 ## Usage
 
 ```console

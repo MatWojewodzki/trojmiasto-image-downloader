@@ -125,7 +125,12 @@ async def main_async(
         force_close=True,
     )
     timeout = aiohttp.ClientTimeout(total=timeout)
-    async with aiohttp.ClientSession(connector=connector, timeout=timeout) as session:
+    headers = {"User-Agent": USERAGENT}
+    async with aiohttp.ClientSession(
+        connector=connector,
+        timeout=timeout,
+        headers=headers,
+    ) as session:
         img_urls = await get_img_urls(session, url, start_idx, end_idx)
 
         if len(img_urls) == 0:

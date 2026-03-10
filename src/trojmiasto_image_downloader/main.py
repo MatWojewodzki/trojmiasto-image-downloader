@@ -7,6 +7,7 @@ import typer
 
 from .main_async import main_async
 from .parsing import get_host
+from .metadata import PKG_VERSION
 
 
 def article_url_callback(url: str) -> str:
@@ -14,6 +15,12 @@ def article_url_callback(url: str) -> str:
     if not host.endswith("trojmiasto.pl"):
         raise typer.BadParameter("url must point to trojmiasto.pl")
     return url
+
+
+def version_callback(value: bool):
+    if value:
+        print(PKG_VERSION)
+        raise typer.Exit(0)
 
 
 def main(
@@ -79,6 +86,17 @@ def main(
             help="Timeout in seconds.",
         ),
     ] = 30,
+    _: Annotated[
+        bool,
+        typer.Option(
+            "--version",
+            "-v",
+            help="Display the current version and exit.",
+            is_eager=True,
+            show_default=False,
+            callback=version_callback,
+        ),
+    ] = False,
 ):
     asyncio.run(
         main_async(

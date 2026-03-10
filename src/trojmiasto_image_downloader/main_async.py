@@ -1,7 +1,6 @@
 from typing import Callable
 import asyncio
 from pathlib import Path
-from importlib.metadata import version, PackageNotFoundError
 
 import aiohttp
 from aiohttp import ClientSession, ClientConnectorError, ClientError
@@ -10,14 +9,7 @@ from bs4 import BeautifulSoup
 
 from .host_policies import HostPolicy, get_host_policies
 from .parsing import get_hosts, get_host
-
-
-try:
-    PKG_VERSION = version("trojmiasto-image-downloader")
-except PackageNotFoundError:
-    PKG_VERSION = "unknown"
-
-USERAGENT = f"trojmiasto-image-downloader/{PKG_VERSION} (+https://github.com/MatWojewodzki/trojmiasto-image-downloader; contact: matwojewodzki@gmail.com)"
+from .metadata import USERAGENT
 
 
 class DownloadResult:

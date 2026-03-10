@@ -87,6 +87,7 @@ $ tid [OPTIONS] ARTICLE_URL [DESTINATION_DIRECTORY]
 * `-d, --delay INTEGER`: Number of milliseconds to wait before performing the next request to the same host.  [default: 1000]
 * `-c, --max-concurrency INTEGER`: Max number of concurrent connections.  [default: 1]
 * `-t, --timeout INTEGER`: Timeout in seconds.  [default: 30]
+* `-v, --version`: Display the current version and exit.
 * `--install-completion`: Install completion for the current shell.
 * `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
 * `--help`: Show this message and exit.

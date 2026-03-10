@@ -3,6 +3,7 @@ import asyncio
 from pathlib import Path
 
 import aiohttp
+import typer
 from aiohttp import ClientSession, ClientConnectorError, ClientError
 from rich.progress import Progress
 from bs4 import BeautifulSoup
@@ -41,10 +42,10 @@ async def get_img_urls(
 
     except TimeoutError:
         print("Failed to fetch the article (timed out).")
-        exit(1)
+        raise typer.Exit(1)
     except (ClientConnectorError, ClientError) as e:
         print(f"Failed to fetch the article ({e}).")
-        exit(1)
+        raise typer.Exit(1)
 
 
 def prepare_destination_directory(destination_directory: Path):
@@ -125,7 +126,7 @@ async def main_async(
 
         if len(img_urls) == 0:
             print("No images found for this article.")
-            exit(0)
+            raise typer.Exit(0)
 
         hosts = get_hosts(img_urls)
         print(

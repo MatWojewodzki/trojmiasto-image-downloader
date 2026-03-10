@@ -4,6 +4,7 @@ import asyncio
 import time
 import re
 
+import typer
 from aiohttp import ClientSession, ClientConnectorError, ClientError
 
 
@@ -186,9 +187,9 @@ async def get_host_policies(
 
         except TimeoutError:
             print(f"Failed to fetch robots.txt for {host} (timed out).")
-            exit(1)
+            raise typer.Exit(1)
         except (ClientConnectorError, ClientError) as e:
             print(f"Failed to fetch robots.txt for {host} ({e}).")
-            exit(1)
+            raise typer.Exit(1)
 
     return host_policies

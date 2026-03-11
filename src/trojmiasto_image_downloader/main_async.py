@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from .host_policies import HostPolicy, get_host_policies
 from .parsing import get_hosts, get_host
 from .metadata import USERAGENT
+from .consoles import out_console, err_console
 
 
 class DownloadResult:
@@ -41,10 +42,10 @@ async def get_img_urls(
             return img_urls[start_idx:end_idx]
 
     except TimeoutError:
-        print("Failed to fetch the article (timed out).")
+        err_console.print("Failed to fetch the article (timed out).")
         raise typer.Exit(1)
     except (ClientConnectorError, ClientError) as e:
-        print(f"Failed to fetch the article ({e}).")
+        err_console.print(f"Failed to fetch the article ({e}).")
         raise typer.Exit(1)
 
 
@@ -67,13 +68,13 @@ async def download_img(
                 async for chunk in response.content.iter_chunked(1024):
                     f.write(chunk)
             download_result_callback(True)
-            print(f"Downloaded {img_url}.")
+            out_console.print(f"Downloaded {img_url}.")
 
     except TimeoutError:
-        print(f"Failed to download {img_url} (timed out).")
+        err_console.print(f"Failed to download {img_url} (timed out).")
         download_result_callback(False)
     except (ClientConnectorError, ClientError) as e:
-        print(f"Failed to download {img_url} ({e}).")
+        err_console.print(f"Failed to download {img_url} ({e}).")
         download_result_callback(False)
 
 
@@ -87,7 +88,7 @@ async def handle_img_download(
     host_policy = host_policies[get_host(img_url)]
 
     if not host_policy.can_fetch(img_url):
-        print(f"Failed to download {img_url} (forbidden by robots.txt).")
+        err_console.print(f"Failed to download {img_url} (forbidden by robots.txt).")
         return
 
     if host_policy.get_rate_limiter() is not None:  # delay is set for this host
@@ -125,11 +126,11 @@ async def main_async(
         img_urls = await get_img_urls(session, url, start_idx, end_idx)
 
         if len(img_urls) == 0:
-            print("No images found for this article.")
+            out_console.print("No images found for this article.")
             raise typer.Exit(0)
 
         hosts = get_hosts(img_urls)
-        print(
+        out_console.print(
             f"Found {len(img_urls)} images from {len(hosts)} host(s) ({', '.join(hosts)})."
         )
 
@@ -140,7 +141,7 @@ async def main_async(
         prepare_destination_directory(destination_directory)
 
         download_result = DownloadResult()
-        with Progress() as progress:
+        with Progress(console=out_console) as progress:
             task_id = progress.add_task("Downloading images", total=len(img_urls))
 
             def download_result_callback(success: bool):
@@ -159,6 +160,6 @@ async def main_async(
             ]
             await asyncio.gather(*tasks)
 
-        print(
+        out_console.print(
             f"Successfully downloaded {download_result.successes} image(s), {download_result.failures} failed."
         )

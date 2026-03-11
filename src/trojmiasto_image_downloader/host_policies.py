@@ -7,6 +7,8 @@ import re
 import typer
 from aiohttp import ClientSession, ClientConnectorError, ClientError
 
+from .consoles import out_console, err_console
+
 
 class RateLimiter:
     def __init__(self, delay: int):
@@ -145,19 +147,19 @@ async def get_host_policies(
     hosts: Iterable[str],
 ):
     if not respect_robots_txt:
-        print("Ignoring robots.txt files (user intent).")
+        out_console.print("Ignoring robots.txt files (user intent).")
         return {host: HostPolicy.from_delay(default_delay) for host in hosts}
 
     host_policies = dict()
     for host in hosts:
-        print(f"Fetching robots.txt for {host}...")
+        out_console.print(f"Fetching robots.txt for {host}...")
         robots_txt_url = f"https://{host}/robots.txt"
 
         try:
             async with session.get(robots_txt_url) as response:
                 if response.status == 404:
                     host_policies[host] = HostPolicy.from_delay(default_delay)
-                    print(
+                    out_console.print(
                         f"Robots.txt for host {host} not found. Leaving the default delay of {default_delay}ms."
                     )
                     continue
@@ -173,23 +175,23 @@ async def get_host_policies(
                 robots_txt_delay = host_policy.get_robots_txt_delay()
 
                 if robots_txt_delay > 0 and robots_txt_delay > default_delay:
-                    print(
+                    out_console.print(
                         f"Fetched robots.txt for {host}. Crawl-delay specified: {robots_txt_delay}ms. Delay overwritten for this host."
                     )
                 elif robots_txt_delay > 0:
-                    print(
+                    out_console.print(
                         f"Fetched robots.txt for {host}. Crawl-delay specified: {robots_txt_delay}ms. Leaving the default delay of {default_delay}ms."
                     )
                 else:
-                    print(
+                    out_console.print(
                         f"Fetched robots.txt for {host}. Crawl-delay not specified. Leaving the default delay of {default_delay}ms."
                     )
 
         except TimeoutError:
-            print(f"Failed to fetch robots.txt for {host} (timed out).")
+            err_console.print(f"Failed to fetch robots.txt for {host} (timed out).")
             raise typer.Exit(1)
         except (ClientConnectorError, ClientError) as e:
-            print(f"Failed to fetch robots.txt for {host} ({e}).")
+            err_console.print(f"Failed to fetch robots.txt for {host} ({e}).")
             raise typer.Exit(1)
 
     return host_policies

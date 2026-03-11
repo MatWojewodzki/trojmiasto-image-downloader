@@ -8,6 +8,7 @@ import typer
 from .main_async import main_async
 from .parsing import get_host
 from .metadata import PKG_VERSION
+from .consoles import out_console
 
 
 def article_url_callback(url: str) -> str:
@@ -19,7 +20,7 @@ def article_url_callback(url: str) -> str:
 
 def version_callback(value: bool):
     if value:
-        print(PKG_VERSION)
+        out_console.print(PKG_VERSION)
         raise typer.Exit(0)
 
 

@@ -46,6 +46,7 @@ def main(
             "--start-idx",
             "-s",
             help="Index of the first image to download, counting from one. If not set, downloads images from the first one.",
+            min=1,
         ),
     ] = None,
     end_idx: Annotated[
@@ -54,6 +55,7 @@ def main(
             "--end-idx",
             "-e",
             help="Index of the last image to download, counting from one. If not set, downloads images up to the last one.",
+            min=1,
         ),
     ] = None,
     respect_robots_txt: Annotated[
@@ -69,6 +71,7 @@ def main(
             "--delay",
             "-d",
             help="Number of milliseconds to wait before performing the next request to the same host.",
+            min=0,
         ),
     ] = 1000,
     max_concurrency: Annotated[
@@ -77,6 +80,7 @@ def main(
             "--max-concurrency",
             "-c",
             help="Max number of concurrent connections.",
+            min=1,
         ),
     ] = 1,
     timeout: Annotated[
@@ -85,6 +89,7 @@ def main(
             "--timeout",
             "-t",
             help="Timeout in seconds.",
+            min=1,
         ),
     ] = 30,
     _: Annotated[

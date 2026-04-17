@@ -37,7 +37,7 @@ async def get_img_urls(
             img_urls = tuple(map(lambda tag: tag["href"], tags))
 
             start_idx = 0 if start_idx is None else start_idx - 1
-            end_idx = len(img_urls) if end_idx is None else end_idx - 1
+            end_idx = len(img_urls) if end_idx is None else end_idx
 
             return img_urls[start_idx:end_idx]
 
